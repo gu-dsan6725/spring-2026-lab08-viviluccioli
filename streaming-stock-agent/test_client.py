@@ -3,6 +3,7 @@
 import requests
 import json
 import sys
+import time
 
 
 BASE_URL = "http://127.0.0.1:5003"
@@ -84,8 +85,10 @@ def test_multi_turn():
 
     test_invocation(session_id, "What is the current price of Apple stock?")
 
+    time.sleep(15)
     test_invocation(session_id, "How has it changed in the last 30 days?")
 
+    time.sleep(15)
     test_invocation(session_id, "What about Tesla?")
 
 

@@ -179,6 +179,80 @@ def _get_company_info(
         }
 
 
+def _format_market_cap(
+    market_cap: Any
+) -> Any:
+    """Format a market cap value into a compact human-readable string."""
+    if not isinstance(market_cap, (int, float)):
+        return market_cap
+
+    abs_market_cap = abs(market_cap)
+    if abs_market_cap >= 1_000_000_000_000:
+        return f"{market_cap / 1_000_000_000_000:.1f}T"
+    if abs_market_cap >= 1_000_000_000:
+        return f"{market_cap / 1_000_000_000:.1f}B"
+    if abs_market_cap >= 1_000_000:
+        return f"{market_cap / 1_000_000:.1f}M"
+
+    return str(market_cap)
+
+
+def _compare_stocks(
+    symbol1: str,
+    symbol2: str
+) -> Dict[str, Any]:
+    """Compare two stocks side-by-side.
+
+    Args:
+        symbol1: First stock symbol (e.g., 'AAPL')
+        symbol2: Second stock symbol (e.g., 'MSFT')
+
+    Returns:
+        Dictionary with comparison data for both stocks
+    """
+    stock1_symbol = symbol1.upper()
+    stock2_symbol = symbol2.upper()
+
+    try:
+        stock1_price = _get_stock_price(stock1_symbol)
+        stock2_price = _get_stock_price(stock2_symbol)
+        stock1_info = _get_company_info(stock1_symbol)
+        stock2_info = _get_company_info(stock2_symbol)
+
+        if stock1_price.get("error"):
+            return {"error": stock1_price["error"], "ticker": stock1_symbol}
+
+        if stock2_price.get("error"):
+            return {"error": stock2_price["error"], "ticker": stock2_symbol}
+
+        return {
+            "comparison": {
+                "symbol1": stock1_symbol,
+                "symbol2": stock2_symbol,
+                "stock1": {
+                    "symbol": stock1_symbol,
+                    "current_price": stock1_price.get("current_price"),
+                    "company_name": stock1_info.get("name") or stock1_price.get("name"),
+                    "market_cap": _format_market_cap(stock1_info.get("market_cap"))
+                },
+                "stock2": {
+                    "symbol": stock2_symbol,
+                    "current_price": stock2_price.get("current_price"),
+                    "company_name": stock2_info.get("name") or stock2_price.get("name"),
+                    "market_cap": _format_market_cap(stock2_info.get("market_cap"))
+                }
+            }
+        }
+
+    except Exception as e:
+        logger.error(f"Error comparing stocks {stock1_symbol} and {stock2_symbol}: {e}")
+        return {
+            "error": str(e),
+            "symbol1": stock1_symbol,
+            "symbol2": stock2_symbol
+        }
+
+
 # Tool definitions for Strands agent
 STOCK_TOOLS = [
     {
@@ -230,6 +304,25 @@ STOCK_TOOLS = [
             "required": ["ticker"]
         },
         "function": _get_company_info
+    },
+    {
+        "name": "compare_stocks",
+        "description": "Compare exactly two stocks side-by-side in a single tool call, including current price, company name, and market capitalization. Prefer this tool for requests like 'compare AAPL and MSFT', 'Apple vs Microsoft', or 'Which is better, Tesla or Ford?' instead of calling separate price or company tools.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "symbol1": {
+                    "type": "string",
+                    "description": "First stock symbol to compare"
+                },
+                "symbol2": {
+                    "type": "string",
+                    "description": "Second stock symbol to compare"
+                }
+            },
+            "required": ["symbol1", "symbol2"]
+        },
+        "function": _compare_stocks
     }
 ]
 
