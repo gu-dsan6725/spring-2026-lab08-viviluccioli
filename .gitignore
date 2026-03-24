@@ -51,6 +51,7 @@ uv.lock
 # Output files (optional - uncomment if you want to ignore outputs)
 # part1_output.txt
 # part2_output.txt
+# doesn't impact right? 
 
 # Logs and scratch files
 debug.log

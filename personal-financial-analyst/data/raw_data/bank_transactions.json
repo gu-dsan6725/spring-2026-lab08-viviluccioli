@@ -1,0 +1,30 @@
+{
+  "account_name": "john_doe_bank_account",
+  "account_type": "checking",
+  "date_range": "2026-02-01 to 2026-03-24",
+  "transactions": [
+    {"date": "2026-02-01", "description": "Paycheck Deposit - Acme Corp", "category": "Income", "amount": 4200, "recurring": true},
+    {"date": "2026-02-01", "description": "Mortgage Payment", "category": "Housing", "amount": -2200, "recurring": true},
+    {"date": "2026-02-03", "description": "Transfer to Savings", "category": "Savings", "amount": -500, "recurring": false},
+    {"date": "2026-02-05", "description": "Electric Company - PG&E", "category": "Utilities", "amount": -152, "recurring": true},
+    {"date": "2026-02-06", "description": "Water Utility", "category": "Utilities", "amount": -65, "recurring": true},
+    {"date": "2026-02-08", "description": "Natural Gas Bill", "category": "Utilities", "amount": -95, "recurring": true},
+    {"date": "2026-02-10", "description": "Internet - Comcast", "category": "Utilities", "amount": -89.99, "recurring": true},
+    {"date": "2026-02-12", "description": "Trash Collection", "category": "Utilities", "amount": -45, "recurring": true},
+    {"date": "2026-02-14", "description": "Netflix", "category": "Entertainment", "amount": -15.99, "recurring": true},
+    {"date": "2026-02-14", "description": "Spotify Premium", "category": "Entertainment", "amount": -10.99, "recurring": true},
+    {"date": "2026-02-15", "description": "Planet Fitness", "category": "Health", "amount": -24.99, "recurring": true},
+    {"date": "2026-02-15", "description": "Paycheck Deposit - Acme Corp", "category": "Income", "amount": 4200, "recurring": true},
+    {"date": "2026-02-16", "description": "Whole Foods Market", "category": "Groceries", "amount": -142.33, "recurring": false},
+    {"date": "2026-02-18", "description": "Target", "category": "Groceries", "amount": -95.50, "recurring": false},
+    {"date": "2026-02-20", "description": "Trader Joes", "category": "Groceries", "amount": -88.25, "recurring": false},
+    {"date": "2026-02-22", "description": "Safeway", "category": "Groceries", "amount": -125.80, "recurring": false},
+    {"date": "2026-02-25", "description": "Car Insurance - State Farm", "category": "Insurance", "amount": -185, "recurring": true}
+  ],
+  "summary": {
+    "total_deposits": 8400,
+    "total_withdrawals": -3835.84,
+    "balance_change": 4564.16,
+    "transaction_count": 17
+  }
+}
